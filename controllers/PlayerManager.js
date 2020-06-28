@@ -11,8 +11,10 @@ import Errors from '../models/Errors';
 import { checkIfLocalStorageIsEnabled } from './UtilsManager';
 
 /* GLOBALS */
+const MAX_FREQUENCY_SECONDS_DELTA_FOR_LS_SAVING = 5;
 let CURRENT_PLAYER = {};
 let isLsEnabled;
+let savingRequestLock = false;
 
 /* METHODS */
 
@@ -99,7 +101,7 @@ const calculateRevenueWhileAway = () => {
 const retrievePlayerFromLocalStorage = () => {
 
   // is localstorage enabled? if false throw an error
-  if (!checkIfLocalStorageIsEnabled()) throw Errors.LOCAL_STORAGE_NOT_SUPPORTED
+  if (isLsEnabled !== true && !checkIfLocalStorageIsEnabled()) throw Errors.LOCAL_STORAGE_NOT_SUPPORTED
 
   // save the player object inside the localStorage
   const playerRawDataFromLS = window.localStorage.getItem(appConfig.LOCAL_STORAGE_KEYS.PLAYER);
@@ -124,11 +126,17 @@ const retrievePlayerFromLocalStorage = () => {
 const savePlayerToLocalStorage = () => {
 
   // is localstorage enabled? if false throw an error
-  if (!checkIfLocalStorageIsEnabled() && isLsEnabled !== undefined) throw Errors.LOCAL_STORAGE_NOT_SUPPORTED
+  if (isLsEnabled !== true && !checkIfLocalStorageIsEnabled()) throw Errors.LOCAL_STORAGE_NOT_SUPPORTED;
   isLsEnabled = true;
 
   // save the player object inside the localStorage
-  window.localStorage.setItem(appConfig.LOCAL_STORAGE_KEYS.PLAYER, btoa(CURRENT_PLAYER.export()));
+  if (!savingRequestLock) {
+    savingRequestLock = true;
+    setTimeout(() => {
+      window.localStorage.setItem(appConfig.LOCAL_STORAGE_KEYS.PLAYER, btoa(CURRENT_PLAYER.export()));
+      savingRequestLock = false;
+    }, MAX_FREQUENCY_SECONDS_DELTA_FOR_LS_SAVING * 1000)
+  }
 
   return {
     success: true

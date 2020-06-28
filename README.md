@@ -28,7 +28,7 @@ In the top bar we can have a profile pic and the amount of money available.
 
 2. save to localStorage tunable to X seconds with a queue mechanism 
 
-3. show modal  when user came back 
+3. show modal  when user came back, when you don't have enough money and when you buy something
 
 4. Add achievements (?) different types of 
 
@@ -39,3 +39,5 @@ In the top bar we can have a profile pic and the amount of money available.
 7. Script for generate different difficulties
 
 8. export and host
+
+9. Fix progress on click
