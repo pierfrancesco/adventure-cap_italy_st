@@ -17,7 +17,11 @@ import { getBoughtBusinessesList, getAvailableBusinessList, buyBusinesses } from
 /* COMPONENTS */
 import OuterContainer from '../components/OuterContainer';
 import Navbar from '../components/Navbar';
+import BusinessesList from '../components/BusinessesList/';
+
+/* ELEMENTS */
 import OwnedBusiness from '../elements/OwnedBusiness';
+import WannabeBusiness from '../elements/WannabeBusiness';
 
 /**
  * React Home component
@@ -77,31 +81,33 @@ const Home = () => {
 
     <OuterContainer>
       <Navbar name={player && player.name} profilePic={"/static/images/profile/profile.png"} money={money}/>
-      <p>YOUR BUSINESSES:</p>
-      {ownBusinesses && ownBusinesses.map(elem => {
-        // TODO: refactor this
-        return <OwnedBusiness
-          id={elem.ID}
-          name={elem.SCREEN_NAME}
-          level={elem.CURRENT_LEVEL}
-          hasManager={elem.HAS_MANAGER}
-          revenue={elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL}
-          collectMoney={() => actionCollectMoney(elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL, elem.ID)}
-          secondsForGoodGeneration={elem.SECONDS_TO_DELIVER_GOOD}
-          managerCost={elem.MANAGER_COST}
-          upgradeCost={(elem.CURRENT_LEVEL + 1) * elem.INITIAL_COST}
-          upgradeBusiness={() => actionBuyUpgrade(elem.ID)}
-          buyManager={() => actionBuyManager(elem.ID)}
-          updateOnGoingTransaction={() => updateOnGoingTransaction(elem.ID)}
-        />
-      })}
-      <p>BUSINESS TO BUY:</p>
-      {wannabeBusiness && wannabeBusiness.map(elem => {
-        return <div key={"elem-to-buy-" + elem.ID}>
-          <p>{elem.SCREEN_NAME}</p>
-          <button onClick={() => actionBuyBusiness(elem)}>BUY {elem.INITIAL_COST} $</button>
-        </div>
-      })}
+      <BusinessesList>
+        {ownBusinesses && ownBusinesses.map(elem => {
+          // TODO: refactor this
+          return <OwnedBusiness
+            id={elem.ID}
+            name={elem.SCREEN_NAME}
+            level={elem.CURRENT_LEVEL}
+            hasManager={elem.HAS_MANAGER}
+            revenue={elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL}
+            collectMoney={() => actionCollectMoney(elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL, elem.ID)}
+            secondsForGoodGeneration={elem.SECONDS_TO_DELIVER_GOOD}
+            managerCost={elem.MANAGER_COST}
+            upgradeCost={(elem.CURRENT_LEVEL + 1) * elem.INITIAL_COST}
+            upgradeBusiness={() => actionBuyUpgrade(elem.ID)}
+            buyManager={() => actionBuyManager(elem.ID)}
+            updateOnGoingTransaction={() => updateOnGoingTransaction(elem.ID)}
+            img={`/static/images/businesses/${elem.ID}/main.png`}
+          />
+        })}
+
+        {wannabeBusiness && wannabeBusiness.map(elem => {
+          return <WannabeBusiness business={elem} img={`/static/images/businesses/${elem.ID}/main.png`}
+                                  buyBusinessAction={() => actionBuyBusiness(elem)}/>
+        })}
+      </BusinessesList>
+
+
     </OuterContainer>
     <style jsx global>{`
         body {

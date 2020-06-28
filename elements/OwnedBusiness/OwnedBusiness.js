@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './OwnedBusiness.module.css';
 
+/* ELEMENTS */
+import Button from '../Button';
+
 /**
  *
  * @param id
@@ -87,14 +90,22 @@ const OwnedBusiness = ({
   }, [manager])
 
   return <div key={"elem-bought-" + id} className={styles.businessCard}>
-    <img src={""}/>
-    <p>Name: {name}</p>
-    <p>Level: {level}</p>
-    <progress className={styles.progress} max="1000" value={progress}/>
-    <br/>
-    {hasManager ? null : <button disabled={isDisabled} onClick={collectHelper}>Collect (+${revenue})</button>}
-    <button onClick={upgradeBusiness}>Upgrade ({upgradeCost}$)</button>
-    {hasManager ? null : <button onClick={managerHelper}>Buy Manager ({managerCost}$)</button>}
+    <div className={styles.businessCardHead}>
+      <div>
+        <img src={img} alt={`Img for: ${id}`}/>
+      </div>
+      <div>
+        <p>{name} | Level {level} / 200 </p>
+      </div>
+    </div>
+    <div className={styles.businessCardBody}>
+      <progress className={styles.progress} max="1000" value={progress}/>
+      <div>
+        {hasManager ? null : <Button disabled={isDisabled} onClick={collectHelper}>Collect (+${revenue})</Button>}
+        <Button onClick={upgradeBusiness}>Upgrade ({upgradeCost}$)</Button>
+        {hasManager ? null : <Button onClick={managerHelper}>Buy Manager ({managerCost}$)</Button>}
+      </div>
+    </div>
   </div>
 };
 

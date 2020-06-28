@@ -5,7 +5,7 @@
     margin: 5px;
     padding-left: 2px;
     padding-right: 2px;
-    background-color: #CC883A;
+    background-color: #7D7769;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -50,8 +50,4 @@
     height: 200px;
     display: flex;
     flex-direction: row;
-}
-
-.progress {
-    width: 300px;
 }

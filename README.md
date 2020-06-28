@@ -20,3 +20,22 @@ We could say that business has: name, pic, initial_cost, state (busy or availabl
 
 We should have a main screen, with all business available, and a lateral menu where's possible to buy managers. 
 In the top bar we can have a profile pic and the amount of money available.
+
+
+// TODO:
+
+1. css media query for business when page is small
+
+2. save to localStorage tunable to X seconds with a queue mechanism 
+
+3. show modal  when user came back 
+
+4. Add achievements (?) different types of 
+
+5. polish components (props type)
+
+6. Unit tests on functions
+
+7. Script for generate different difficulties
+
+8. export and host
