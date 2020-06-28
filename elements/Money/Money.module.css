@@ -1,0 +1,19 @@
+.money {
+    position: relative;
+    height: 100%;
+    background-color: #ebc52c;
+    left: 1%;
+    border-radius: 10px;
+    display: flex;
+    flex: 0 0 69%;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.money > p {
+    margin: auto;
+    font-size: 40px;
+}

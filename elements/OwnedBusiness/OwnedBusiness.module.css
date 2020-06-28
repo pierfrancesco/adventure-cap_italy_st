@@ -1,0 +1,14 @@
+.businessCard {
+    position: relative;
+    height: 120px;
+    width: 400px;
+    margin: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.progress {
+    width: 300px;
+}
