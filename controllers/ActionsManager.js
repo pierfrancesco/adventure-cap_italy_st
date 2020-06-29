@@ -1,10 +1,9 @@
-// helpers to bind action from UI to controller
-import { updateMoney } from './PlayerManager';
-import { buyBusinesses, updateBusinessLevel, updateBusinessManager, updateOnGoingTransaction } from './BusinessManager'
+/* MODELS */
 import Events from '../models/Events';
 import Texts from '../models/Texts';
-
-const NO_MONEY = Texts.en.NO_MONEY;
+/* CONTROLLERS */
+import { updateMoney } from './PlayerManager';
+import { buyBusinesses, updateBusinessLevel, updateBusinessManager, updateOnGoingTransaction } from './BusinessManager'
 
 /**
  *
@@ -16,7 +15,7 @@ const actionBuyBusiness = (business) => {
     window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
     return true
   } else {
-    window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: NO_MONEY}));
+    window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: Texts.en.NO_MONEY}));
     return false
   }
 }
@@ -45,7 +44,7 @@ const actionBuyUpgrade = (businessId, updatePlayerInfoInsideReactState, setModal
     window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
     return true
   } else {
-    window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: NO_MONEY}));
+    window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: Texts.en.NO_MONEY}));
     return false
   }
 }
@@ -61,7 +60,7 @@ const actionBuyManager = (businessId) => {
     window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
     return true
   } else {
-    window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: NO_MONEY}));
+    window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: Texts.en.NO_MONEY}));
     return false
   }
 };
@@ -74,6 +73,13 @@ const actionBuyManager = (businessId) => {
 const actionUpdateOnGoingTransaction = (businessId, currentSeconds) => {
   updateOnGoingTransaction(businessId, currentSeconds);
   window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
+  return true;
 }
 
-export { actionBuyBusiness, actionCollectMoney, actionBuyUpgrade, actionBuyManager, actionUpdateOnGoingTransaction }
+export {
+  actionBuyBusiness,
+  actionCollectMoney,
+  actionBuyUpgrade,
+  actionBuyManager,
+  actionUpdateOnGoingTransaction
+}

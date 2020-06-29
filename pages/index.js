@@ -8,7 +8,7 @@ import {
   initPlayer,
 } from '../controllers/PlayerManager';
 
-import { getBoughtBusinessesList, getAvailableBusinessList, buyBusinesses } from '../controllers/BusinessManager';
+import { getBoughtBusinessesList, getAvailableBusinessList } from '../controllers/BusinessManager';
 
 /* COMPONENTS */
 import OuterContainer from '../components/OuterContainer';
@@ -58,31 +58,35 @@ const Home = () => {
   }, []);
 
   return <div className="container">
+    {/*HEAD OF THE PAGE*/}
     <Head>
       <title>Adventure Cap-Italy-St</title>
-      <link rel="icon" href="/favicon.ico"/>
       <meta name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"/>
       <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet"/>
     </Head>
 
-    {modalMessage ? <Modal message={modalMessage} closeModal={() => setModalMessage(null)}/> : null}
-
+    {/*APP CONTAINER*/}
     <OuterContainer>
 
+      {/*NAVBAR*/}
       <Navbar
         name={player && player.name}
         profilePic={"/static/images/profile/profile.png"}
         money={money}
       />
 
+      {/*BUSINESSES LISTS*/}
       <BusinessesList
         ownBusinesses={ownBusinesses}
         wannabeBusiness={wannabeBusiness}
       />
-
-
     </OuterContainer>
+
+    {/*MODAL*/}
+    {modalMessage ? <Modal message={modalMessage} closeModal={() => setModalMessage(null)}/> : null}
+
+    {/*QUICK GLOBAL CSS*/}
     <style jsx global>{`
         body {
           margin: 0;

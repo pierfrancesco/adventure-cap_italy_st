@@ -24,10 +24,9 @@ In the top bar we can have a profile pic and the amount of money available.
 
 // TODO:
 
-4. Add achievements (?) different types of 
+1. polish components (props type)
 
-5. polish components (props type)
+2. Unit tests on functions
 
-6. Unit tests on functions
+3. Add Doc
 
-7. Script for generate different difficulties

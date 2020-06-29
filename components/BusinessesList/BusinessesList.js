@@ -9,17 +9,16 @@ import OwnedBusiness from '../../elements/OwnedBusiness'
 import WannabeBusiness from '../../elements/WannabeBusiness';
 
 /* CONTROLLERS */
-import { updateOnGoingTransaction } from '../../controllers/PlayerManager'
 import {
   actionBuyBusiness,
   actionBuyUpgrade,
   actionCollectMoney,
   actionBuyManager,
   actionUpdateOnGoingTransaction
-} from '../../controllers/Actions'
+} from '../../controllers/ActionsManager'
 
 /**
- *
+ * This component contains both owned and wannabe businesses
  * @param ownBusinesses
  * @param wannabeBusiness
  * @returns {*}
@@ -27,18 +26,20 @@ import {
  */
 const BusinessesList = ({ownBusinesses, wannabeBusiness}) => {
   return <div className={styles.BusinessList}>
+
+    {/* GENERATE OWNED BUSINESSES*/}
     {ownBusinesses && ownBusinesses.sort((a, b) => a.INITIAL_COST > b.INITIAL_COST ? 1 : -1).map(elem => {
 
-      const pricingModel = elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL;
-      // TODO: refactor this
+      const revenueForThisBizAndLevel = elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL;
+
       return <OwnedBusiness
         key={"OwnedBusiness" + elem.ID}
         id={elem.ID}
         name={elem.SCREEN_NAME}
         level={elem.CURRENT_LEVEL}
         hasManager={elem.HAS_MANAGER}
-        revenue={elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL}
-        collectMoney={() => actionCollectMoney(pricingModel, elem.ID)}
+        revenue={revenueForThisBizAndLevel}
+        collectMoney={() => actionCollectMoney(revenueForThisBizAndLevel, elem.ID)}
         secondsForGoodGeneration={elem.SECONDS_TO_DELIVER_GOOD}
         managerCost={elem.MANAGER_COST}
         upgradeCost={(elem.CURRENT_LEVEL + 1) * elem.INITIAL_COST}
@@ -50,6 +51,7 @@ const BusinessesList = ({ownBusinesses, wannabeBusiness}) => {
       />
     })}
 
+    {/* GENERATE WANNABE BUSINESSES*/}
     {wannabeBusiness && wannabeBusiness.map(elem => {
       return <WannabeBusiness
         key={"WannabeBusiness" + elem.ID}
