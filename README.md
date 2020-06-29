@@ -6,7 +6,7 @@ Playable link: https://adventure-cap-italy-st.vercel.app/
 ## Tech choices
 
 The framework chosen to help me in speeding up the whole dev flow has been NextJS, so ReactJS has been used for the UI.
-JavaScript language has been chosen with ES6 dialect. TypeScript (which I think it's better) required me too long for this
+JavaScript language has been chosen with ES6 dialect. I didn't choose TypeScript (which I think it's better) cause it required me too long for this
 MVP (configure Next and React for tsx) even though I think is much more clear and easy to debug.
 
 
