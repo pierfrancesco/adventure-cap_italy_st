@@ -28,6 +28,18 @@ The project has been divided into these folders:
 1. clone repo and then `npm i`
 2. once done: `npm run dev` to run it locally, or `npm run export` to generate an update static output.
 
+## How to modify it
+
+The entry point is `pages/index.js`. Since there you can easily retrieve how the game flow, however everything begins with
+```javascript
+useEffect(() => {
+  setPlayer(initPlayer(setModalMessage));
+  //...
+});
+```
+Where `initPlayer` retrieves or creates a new Player instance. Following this function you can see how the whole
+init flow works.
+
 ## Features
 
 The "game" has 12 businesses taken from a catalog which is represented by `models/BusinessesCatalog.js`.

@@ -40,7 +40,7 @@ const Home = () => {
     setWannabeBusiness(getAvailableBusinessList());
   };
 
-  // execute this once app is mounted and window. is available
+  // start the game logic
   useEffect(() => {
     setPlayer(initPlayer(setModalMessage));
     updatePlayerInfoInsideReactState();
