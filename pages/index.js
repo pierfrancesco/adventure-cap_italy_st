@@ -71,15 +71,15 @@ const Home = () => {
 
       {/*NAVBAR*/}
       <Navbar
-        name={player && player.name}
+        name={player && player.name || 'JohnDoe'}
         profilePic={"/static/images/profile/profile.png"}
-        money={money}
+        money={money || 0}
       />
 
       {/*BUSINESSES LISTS*/}
       <BusinessesList
-        ownBusinesses={ownBusinesses}
-        wannabeBusiness={wannabeBusiness}
+        ownBusinesses={ownBusinesses || []}
+        wannabeBusiness={wannabeBusiness || []}
       />
     </OuterContainer>
 

@@ -1,7 +1,6 @@
 /* REACT */
 import React from 'react';
-
-/* STYLES */
+import PropTypes from 'prop-types'
 import styles from './BusinessList.module.css';
 
 /* ELEMENTS */
@@ -60,6 +59,11 @@ const BusinessesList = ({ownBusinesses, wannabeBusiness}) => {
       />
     })}
   </div>
+};
+
+BusinessesList.propTypes = {
+  ownBusinesses: PropTypes.array.isRequired,
+  wannabeBusiness: PropTypes.array.isRequired,
 };
 
 export default BusinessesList;

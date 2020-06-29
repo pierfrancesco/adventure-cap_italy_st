@@ -16,6 +16,6 @@ const OuterContainer = ({children}) => {
       {children}
     </InnerContainer>
   </div>
-}
+};
 
 export default OuterContainer;
