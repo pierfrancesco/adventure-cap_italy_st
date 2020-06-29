@@ -1,32 +1,60 @@
-# Adventure Cap Italy St 🇮🇹
+# Adventure Cap-Italy-St 🇮🇹
 
-## Entities
+This is an MVP-Clone of the game Adventure Capitalist with a set of goods borrowed from Italian cliches.
+Playable link: https://adventure-cap-italy-st.vercel.app/
 
-1. Player: he's the one who plays the game, have a capital and want to increase it buying new business, getting money
-from them clicking or doing it automatically hiring a manager.
-He expects to earn money also while he's away so there should be a last_update timestamp mechanism to calculate
-revenue while game's not opened.
-We could say: that player has a name, pic, capital, business_list, last_time_opened
+## Tech choices
 
-2. Business: there are several types, but they have in common same props, only values can change.
-They can produce money if you "sell" (click) the product or you hire a manager that essentially clicks for you.
-They have a cost, they have a level, they have a min time to produce money that can change based to level, they can be managed by a manager
-they can produce money also when user's away
-We could say that business has: name, pic, initial_cost, state (busy or available to be clicked), has_manager, time_to_complete, levels, (each levels has a cost, time to produce the money, a qnty of money produced)
+The framework chosen to help me in speeding up the whole dev flow has been NextJS, so ReactJS has been used for the UI.
 
-3. Managers: they own a Business and their job is to click for you, they have a business id and a cost.
-
-## Components
-
-We should have a main screen, with all business available, and a lateral menu where's possible to buy managers. 
-In the top bar we can have a profile pic and the amount of money available.
+JavaScript language has been chosen with ES6 dialect. TypeScript (which I think is better) required me too long for this
+MVP (configure Next and React for tsx) even though I think is much more clear and easy to debug.
 
 
-// TODO:
+## Project Structure
 
-1. polish components (props type)
+The project has been divided into these folders:
+- `classes`: contains Player js class
+- `components`: contains all the React Component (component = a react component which contains at least another react component)
+- `controllers`: contains all the business logic 
+- `elements`: contains all the React elements (element = a react component which doesn't contain another react component)
+- `models`: static data structure
+- `out`: NextJS static export of the project 
+- `pages`: NextJS pages folder to create an index.html
+- `static`: folder for all the assets
 
-2. Unit tests on functions
+## How to run it
 
-3. Add Doc
+1. clone repo and then `npm i`
+2. once done: `npm run dev` to run it locally, or `npm run export` to generate an update static output.
 
+## Features
+
+The "game" has 12 businesses taken from a catalog which is represented by `models/BusinessesCatalog.js`.
+Inside that file is possible to tune game difficulty. Right now there's a naive linear increasing difficulty.
+
+There's also a file called `appConfig.json` which set some values like how much money the player should start with 
+rather than the save frequency inside the local storage.
+ 
+Another feature is that game save the state inside the window localstorage with a naive "obfuscation" set/get made
+with atob/btoa provided by browsers.
+
+This saving features allows the next two features which are:
+1. calculate how much money managers made while you were away
+2. restore the progress value at the last time it was before (+- flush intervall seconds for localstorage) 
+
+## Improvements
+
+Here we have "greenfield" for improvements. I'll write some but there are much more:
+
+1. `switch to TypeScript`: save some unit tests + help different folks in the project to better work with methods
+2. `a dedicated class for business`: right now they live or inside the Player array property `businesses` or, for those ones
+not bought yet, in a static file. A better separation will be the best for punctual updates (right now you've to cycle in all players businesses array)  
+3. `a better management state`: right now is made with React Component State, something like Redux will help for sure
+4. `a better separation between Logic / Actions / UI`: I'm not so enthusiastic about how properties are injected inside `OwnedBusiness` component, 
+probably point 2 will help in this task
+5. `backend support`: a controller which provides send/get the object to a specific endpoint, 
+both send n forget with initial XHR retrieving and/or something based on WebSocket constant communication.
+6. `tests`: add tests that check if you can do operations based on your current state (buy, collect)
+
+  
