@@ -6,10 +6,6 @@ import React, { useEffect, useState } from 'react';
 import {
   getMoney,
   initPlayer,
-  updateBusinessLevel,
-  updateBusinessManager,
-  updateMoney,
-  updateOnGoingTransaction
 } from '../controllers/PlayerManager';
 
 import { getBoughtBusinessesList, getAvailableBusinessList, buyBusinesses } from '../controllers/BusinessManager';
@@ -20,8 +16,8 @@ import Navbar from '../components/Navbar';
 import BusinessesList from '../components/BusinessesList/';
 
 /* ELEMENTS */
-import OwnedBusiness from '../elements/OwnedBusiness';
-import WannabeBusiness from '../elements/WannabeBusiness';
+import Modal from '../elements/Modal'
+import Events from '../models/Events'
 
 /**
  * React Home component
@@ -30,11 +26,12 @@ import WannabeBusiness from '../elements/WannabeBusiness';
  */
 const Home = () => {
 
-  // quick state app, TODO: use reducer or redux
+  // quick state app
   const [player, setPlayer] = useState(null);
   const [money, setMoney] = useState();
   const [ownBusinesses, setOwnBusinesses] = useState(null);
   const [wannabeBusiness, setWannabeBusiness] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
 
   // helper to update react state
   const updatePlayerInfoInsideReactState = () => {
@@ -43,32 +40,21 @@ const Home = () => {
     setWannabeBusiness(getAvailableBusinessList());
   };
 
-  // helpers to bind action from UI to controller
-  const actionBuyBusiness = (business) => {
-    const result = buyBusinesses(business);
-    if (result) updatePlayerInfoInsideReactState();
-  }
-
-  const actionCollectMoney = (newMoney, businessId) => {
-    updateMoney(newMoney, businessId);
-    updatePlayerInfoInsideReactState();
-  }
-
-  const actionBuyUpgrade = (businessId) => {
-    updateBusinessLevel(businessId);
-    updatePlayerInfoInsideReactState();
-  }
-
-  const actionBuyManager = (businessId) => {
-    let result = updateBusinessManager(businessId)
-    updatePlayerInfoInsideReactState();
-    return result;
-  }
-
   // execute this once app is mounted and window. is available
   useEffect(() => {
-    setPlayer(initPlayer());
+    setPlayer(initPlayer(setModalMessage));
     updatePlayerInfoInsideReactState();
+
+    // define listeners for update react state
+    window.addEventListener(Events.UPDATE_REACT_STATE, updatePlayerInfoInsideReactState);
+    window.addEventListener(Events.OPEN_MODAL, (e) => setModalMessage(e.detail));
+
+    // remove all listeners
+    return () => {
+      window.removeEventListener(Events.UPDATE_REACT_STATE, updatePlayerInfoInsideReactState);
+      window.addEventListener(Events.OPEN_MODAL, (e) => setModalMessage(e.detail));
+    }
+
   }, []);
 
   return <div className="container">
@@ -78,34 +64,20 @@ const Home = () => {
       <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet"/>
     </Head>
 
+    {modalMessage ? <Modal message={modalMessage} closeModal={() => setModalMessage(null)}/> : null}
 
     <OuterContainer>
-      <Navbar name={player && player.name} profilePic={"/static/images/profile/profile.png"} money={money}/>
-      <BusinessesList>
-        {ownBusinesses && ownBusinesses.map(elem => {
-          // TODO: refactor this
-          return <OwnedBusiness
-            id={elem.ID}
-            name={elem.SCREEN_NAME}
-            level={elem.CURRENT_LEVEL}
-            hasManager={elem.HAS_MANAGER}
-            revenue={elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL}
-            collectMoney={() => actionCollectMoney(elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL, elem.ID)}
-            secondsForGoodGeneration={elem.SECONDS_TO_DELIVER_GOOD}
-            managerCost={elem.MANAGER_COST}
-            upgradeCost={(elem.CURRENT_LEVEL + 1) * elem.INITIAL_COST}
-            upgradeBusiness={() => actionBuyUpgrade(elem.ID)}
-            buyManager={() => actionBuyManager(elem.ID)}
-            updateOnGoingTransaction={() => updateOnGoingTransaction(elem.ID)}
-            img={`/static/images/businesses/${elem.ID}/main.png`}
-          />
-        })}
 
-        {wannabeBusiness && wannabeBusiness.map(elem => {
-          return <WannabeBusiness business={elem} img={`/static/images/businesses/${elem.ID}/main.png`}
-                                  buyBusinessAction={() => actionBuyBusiness(elem)}/>
-        })}
-      </BusinessesList>
+      <Navbar
+        name={player && player.name}
+        profilePic={"/static/images/profile/profile.png"}
+        money={money}
+      />
+
+      <BusinessesList
+        ownBusinesses={ownBusinesses}
+        wannabeBusiness={wannabeBusiness}
+      />
 
 
     </OuterContainer>
@@ -113,6 +85,13 @@ const Home = () => {
         body {
           margin: 0;
           font-family: 'Dancing Script', cursive;
+        }
+        progress {
+           -webkit-appearance: none;
+        }
+        progress::-webkit-progress-bar-value {
+          -webkit-appearance: none;
+          background: orangered;
         }
       `}</style>
   </div>

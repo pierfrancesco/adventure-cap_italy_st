@@ -11,7 +11,7 @@ import Errors from '../models/Errors';
 import { checkIfLocalStorageIsEnabled } from './UtilsManager';
 
 /* GLOBALS */
-const MAX_FREQUENCY_SECONDS_DELTA_FOR_LS_SAVING = 5;
+const MAX_FREQUENCY_SECONDS_DELTA_FOR_LS_SAVING = 3;
 let CURRENT_PLAYER = {};
 let isLsEnabled;
 let savingRequestLock = false;
@@ -47,10 +47,12 @@ const createNewPlayer = (name) => {
   return CURRENT_PLAYER;
 }
 
-/*
-
+/**
+ *
+ * @param sendWelcomeMessage
+ * @returns {Player}
  */
-const initPlayer = () => {
+const initPlayer = (sendWelcomeMessage) => {
 
   try {
     CURRENT_PLAYER = retrievePlayerFromLocalStorage();
@@ -60,7 +62,7 @@ const initPlayer = () => {
   }
 
   // calculate money while you where away
-  calculateRevenueWhileAway();
+  calculateRevenueWhileAway(sendWelcomeMessage);
 
   return CURRENT_PLAYER;
 
@@ -68,8 +70,9 @@ const initPlayer = () => {
 
 /**
  *
+ * @param sendWelcomeMessage
  */
-const calculateRevenueWhileAway = () => {
+const calculateRevenueWhileAway = (sendWelcomeMessage) => {
 
   let moneyToAssign = 0;
 
@@ -79,20 +82,23 @@ const calculateRevenueWhileAway = () => {
     if (elem.HAS_MANAGER) {
       // 2. take last transaction
       const secondsAfterLastTransaction = Date.now() - elem.LAST_TRANSACTION_TIMESTAMP;
-      // TODO: calculate ongoing
+      elem.LAST_TRANSACTION_TIMESTAMP = Date.now();
       const minTimeToDeliverGood = elem.SECONDS_TO_DELIVER_GOOD;
+      const pricingModel = elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL;
 
+      // if last transaction for this shop has been gt than seconds to deliver assign it
       if (secondsAfterLastTransaction >= minTimeToDeliverGood) {
         const itemsCollectedWhileAway = parseInt((secondsAfterLastTransaction / minTimeToDeliverGood) / 1000);
-        moneyToAssign += itemsCollectedWhileAway * (elem.SINGLE_ITEM_PRICE * elem.CURRENT_LEVEL);
+        moneyToAssign += itemsCollectedWhileAway * (pricingModel);
       }
     }
   });
 
-  CURRENT_PLAYER.money += moneyToAssign;
-  savePlayerToLocalStorage();
-
-  console.log(`While away you collect:${moneyToAssign} $`)
+  if (moneyToAssign > 0) {
+    CURRENT_PLAYER.money += moneyToAssign;
+    savePlayerToLocalStorage();
+    sendWelcomeMessage(`While away you collect:${moneyToAssign} $`);
+  }
 }
 
 /**
@@ -154,84 +160,10 @@ const updateMoney = (newMoney, businessId) => {
   CURRENT_PLAYER.businesses.map(elem => {
     if (elem.ID === businessId) {
       elem.LAST_TRANSACTION_TIMESTAMP = Date.now();
-      elem.LAST_ON_GOING_TRANSACTION_TIMESTAMP = Date.now();
+      elem.LAST_ONGOING_SECONDS_TRANSACTION = 0;
     }
   });
   savePlayerToLocalStorage();
-}
-
-/**
- *
- * @param businessId
- */
-const updateOnGoingTransaction = (businessId) => {
-  CURRENT_PLAYER.businesses.map(elem => {
-    if (elem.ID === businessId) {
-      elem.LAST_ON_GOING_TRANSACTION_TIMESTAMP = Date.now();
-    }
-  });
-  savePlayerToLocalStorage();
-}
-
-/**
- *
- * @param businessId
- */
-const updateBusinessLevel = (businessId) => {
-
-  // TODO: add error if business not found
-  let currentBusinessToUpdate = CURRENT_PLAYER.businesses.filter(elem => elem.ID === businessId)[0];
-  if (currentBusinessToUpdate === undefined) return 'Something wrong';
-
-  // check if you reached max level
-  if (currentBusinessToUpdate.CURRENT_LEVEL >= 200)
-    return 'Level max already';
-
-  // TODO: process this numbers
-  const priceForTheUpdate = (currentBusinessToUpdate.CURRENT_LEVEL + 1) * currentBusinessToUpdate.INITIAL_COST;
-
-  // check if you have enough money
-  if (CURRENT_PLAYER.money < priceForTheUpdate)
-    return 'You don\'t have enough money';
-
-  CURRENT_PLAYER.businesses.map(elem => {
-    if (elem.ID === businessId) {
-      elem.CURRENT_LEVEL += 1;
-    }
-  });
-
-  CURRENT_PLAYER.money -= priceForTheUpdate;
-  savePlayerToLocalStorage();
-}
-
-/**
- *
- * @param businessId
- * @returns {string}
- */
-const updateBusinessManager = (businessId) => {
-  // TODO: add error if business not found
-  let currentBusinessToUpdate = CURRENT_PLAYER.businesses.filter(elem => elem.ID === businessId)[0];
-  if (currentBusinessToUpdate === undefined) return 'Something wrong';
-
-  // check if you reached max level
-  if (currentBusinessToUpdate.HAS_MANAGER)
-    return 'Manager already bought';
-
-  // check if you have enough money
-  if (CURRENT_PLAYER.money < currentBusinessToUpdate.MANAGER_COST)
-    return 'You don\'t have enough money to buy manager';
-
-  CURRENT_PLAYER.businesses.map(elem => {
-    if (elem.ID === businessId) {
-      elem.HAS_MANAGER = true;
-    }
-  });
-
-  CURRENT_PLAYER.money -= currentBusinessToUpdate.MANAGER_COST;
-  savePlayerToLocalStorage();
-
-  return true;
 }
 
 /**
@@ -246,9 +178,6 @@ export {
   initPlayer,
   updateMoney,
   getMoney,
-  updateBusinessLevel,
-  updateBusinessManager,
-  updateOnGoingTransaction,
   CURRENT_PLAYER
 }
 

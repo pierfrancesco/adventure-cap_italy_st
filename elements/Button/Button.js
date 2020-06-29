@@ -9,17 +9,19 @@ import styles from './Button.module.css';
  *
  * @param children
  * @param onClick
+ * @param disabled
  * @returns {*}
  * @constructor
  */
-const Button = ({children, onClick}) => {
-  return <div onClick={onClick} className={styles.button}>
+const Button = ({children, onClick, disabled}) => {
+  return <div onClick={onClick} className={disabled ? styles.buttonDisabled : styles.button}>
     {children}
   </div>
 };
 
 Button.propTypes = {
-  onClick : PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 }
 
 export default Button;

@@ -43,8 +43,83 @@ const buyBusinesses = (business) => {
 
 }
 
+/**
+ *
+ * @param businessId
+ */
+const updateBusinessLevel = (businessId) => {
+
+  // TODO: add error if business not found
+  let currentBusinessToUpdate = CURRENT_PLAYER.businesses.filter(elem => elem.ID === businessId)[0];
+  if (currentBusinessToUpdate === undefined) return false;
+
+  // check if you reached max level
+  if (currentBusinessToUpdate.CURRENT_LEVEL >= 200) return false
+
+  // TODO: process this numbers
+  const priceForTheUpdate = (currentBusinessToUpdate.CURRENT_LEVEL + 1) * currentBusinessToUpdate.INITIAL_COST;
+
+  // check if you have enough money
+  if (CURRENT_PLAYER.money < priceForTheUpdate) return false
+
+  CURRENT_PLAYER.businesses.map(elem => {
+    if (elem.ID === businessId) {
+      elem.CURRENT_LEVEL += 1;
+    }
+  });
+
+  CURRENT_PLAYER.money -= priceForTheUpdate;
+  savePlayerToLocalStorage();
+
+  return true;
+}
+
+/**
+ *
+ * @param businessId
+ * @returns {string}
+ */
+const updateBusinessManager = (businessId) => {
+  // TODO: add error if business not found
+  let currentBusinessToUpdate = CURRENT_PLAYER.businesses.filter(elem => elem.ID === businessId)[0];
+  if (currentBusinessToUpdate === undefined) return false;
+
+  // check if you reached max level
+  if (currentBusinessToUpdate.HAS_MANAGER) return false;
+
+  // check if you have enough money
+  if (CURRENT_PLAYER.money < currentBusinessToUpdate.MANAGER_COST) return false;
+
+  CURRENT_PLAYER.businesses.map(elem => {
+    if (elem.ID === businessId) elem.HAS_MANAGER = true;
+  });
+
+  CURRENT_PLAYER.money -= currentBusinessToUpdate.MANAGER_COST;
+  savePlayerToLocalStorage();
+  return true;
+}
+
+
+/**
+ *
+ * @param businessId
+ * @param currentSeconds
+ */
+const updateOnGoingTransaction = (businessId, currentSeconds) => {
+  CURRENT_PLAYER.businesses.map(elem => {
+    if (elem.ID === businessId) {
+      elem.LAST_ONGOING_SECONDS_TRANSACTION = parseInt(currentSeconds);
+    }
+  });
+
+  savePlayerToLocalStorage();
+}
+
 export {
   getBoughtBusinessesList,
   getAvailableBusinessList,
-  buyBusinesses
+  buyBusinesses,
+  updateBusinessLevel,
+  updateBusinessManager,
+  updateOnGoingTransaction
 }

@@ -1,6 +1,6 @@
 {
   "PLAYER_CONFIG": {
-    "INITIAL_AMOUNT_OF_MONEY": 150
+    "INITIAL_AMOUNT_OF_MONEY": 5000
   },
   "LOCAL_STORAGE_KEYS": {
     "PLAYER": "player"

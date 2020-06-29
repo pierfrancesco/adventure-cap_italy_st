@@ -14,7 +14,7 @@ import Button from '../Button';
  */
 const WannabeBusiness = ({business, img,  buyBusinessAction}) => {
 
-  return <div key={"elem-bought-" + business.ID} className={styles.businessCard}>
+  return <div key={"elem-wannabe-" + business.ID} className={styles.businessCard}>
     <div className={styles.businessCardHead}>
       <div>
         <img src={img} alt={`Img for: ${business.ID}`}/>
@@ -25,7 +25,7 @@ const WannabeBusiness = ({business, img,  buyBusinessAction}) => {
     </div>
     <div className={styles.businessCardBody}>
       <div>
-        <Button onClick={buyBusinessAction}>Buy ({business.INITIAL_COST}$)</Button>
+        <Button onClick={buyBusinessAction}>Buy <br/> {business.INITIAL_COST}$</Button>
       </div>
     </div>
   </div>
