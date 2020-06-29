@@ -6,8 +6,7 @@ Playable link: https://adventure-cap-italy-st.vercel.app/
 ## Tech choices
 
 The framework chosen to help me in speeding up the whole dev flow has been NextJS, so ReactJS has been used for the UI.
-
-JavaScript language has been chosen with ES6 dialect. TypeScript (which I think is better) required me too long for this
+JavaScript language has been chosen with ES6 dialect. TypeScript (which I think it's better) required me too long for this
 MVP (configure Next and React for tsx) even though I think is much more clear and easy to debug.
 
 
@@ -30,14 +29,14 @@ The project has been divided into these folders:
 
 ## How to modify it
 
-The entry point is `pages/index.js`. Since there you can easily retrieve how the game flow, however everything begins with
+The entry point is `pages/index.js`. Since there you can easily retrieve how the game flow, however, everything begins with
 ```javascript
 useEffect(() => {
   setPlayer(initPlayer(setModalMessage));
   //...
 });
 ```
-Where `initPlayer` retrieves or creates a new Player instance. Following this function you can see how the whole
+Where `initPlayer` retrieves or creates a new Player instance. Following this function, you can see how the whole
 init flow works.
 
 ## Features
@@ -45,19 +44,19 @@ init flow works.
 The "game" has 12 businesses taken from a catalog which is represented by `models/BusinessesCatalog.js`.
 Inside that file is possible to tune game difficulty. Right now there's a naive linear increasing difficulty.
 
-There's also a file called `appConfig.json` which set some values like how much money the player should start with 
+There's also a file called `appConfig.json` which sets some values like how much money the player should start with 
 rather than the save frequency inside the local storage.
  
 Another feature is that game save the state inside the window localstorage with a naive "obfuscation" set/get made
 with atob/btoa provided by browsers.
 
-This saving features allows the next two features which are:
+This saving feature allows the next two features which are:
 1. calculate how much money managers made while you were away
-2. restore the progress value at the last time it was before (+- flush intervall seconds for localstorage) 
+2. restore the progress value at the last time it was before (+- flush interval seconds for localstorage) 
 
 ## Improvements
 
-Here we have "greenfield" for improvements. I'll write some but there are much more:
+Here we have a greenfield for improvements. I'll write some but there are much more:
 0. `better UI/UX`
 1. `switch to TypeScript`: save some unit tests + help different folks in the project to better work with methods
 2. `a dedicated class for business`: right now they live or inside the Player array property `businesses` or, for those ones
