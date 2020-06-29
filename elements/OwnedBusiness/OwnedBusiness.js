@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from './OwnedBusiness.module.css';
 
+/* MODELS */
+import Texts from '../../models/Texts';
+
 /* ELEMENTS */
 import Button from '../Button';
+import PropTypes from 'prop-types'
+import { allFirstCharsCapital } from '../../controllers/UtilsManager'
 
 /**
  *
@@ -109,7 +114,7 @@ const OwnedBusiness =
         </div>
         <div>
           {/*Biz Name & Level*/}
-          <p>{name} <br/> Level {level} / 200 </p>
+          <p>{name} <br/> {allFirstCharsCapital(Texts.en.LEVEL)} {level} / 200 </p>
         </div>
       </div>
       {/*Business Body*/}
@@ -119,14 +124,34 @@ const OwnedBusiness =
         {/*Button Container*/}
         <div>
           {/*Collect Button*/}
-          {hasManager ? null : <Button disabled={isDisabled} onClick={collectHelper}>Collect <br/> +${revenue}</Button>}
+          {hasManager ? null :
+            <Button disabled={isDisabled} onClick={collectHelper}>{allFirstCharsCapital(Texts.en.COLLECT)}
+              <br/> +${revenue}</Button>}
           {/*Upgrade Button*/}
-          <Button onClick={upgradeBusiness}>Upgrade <br/> {upgradeCost}$</Button>
+          <Button onClick={upgradeBusiness}>{allFirstCharsCapital(Texts.en.UPGRADE)} <br/> {upgradeCost}$</Button>
           {/*Buy Manager Button*/}
-          {hasManager ? null : <Button onClick={managerHelper}>Buy Manager <br/> {managerCost}$</Button>}
+          {hasManager ? null :
+            <Button onClick={managerHelper}>{allFirstCharsCapital(Texts.en.BUY_MANAGER)} <br/> {managerCost}$</Button>}
         </div>
       </div>
     </div>
   };
+
+OwnedBusiness.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  level: PropTypes.number.isRequired,
+  hasManager: PropTypes.bool.isRequired,
+  secondsForGoodGeneration: PropTypes.number.isRequired,
+  revenue: PropTypes.number.isRequired,
+  collectMoney: PropTypes.func.isRequired,
+  upgradeCost: PropTypes.func.isRequired,
+  upgradeBusines: PropTypes.func.isRequired,
+  managerCost: PropTypes.number.isRequired,
+  buyManager: PropTypes.func.isRequired,
+  updateOnGoingTransaction: PropTypes.func.isRequired,
+  img: PropTypes.string.isRequired,
+  oldSecondsToElapse: PropTypes.number,
+}
 
 export default OwnedBusiness;

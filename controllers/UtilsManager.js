@@ -38,7 +38,6 @@ const allFirstCharsCapital = (text, safeWord = '') => {
 }
 
 export {
-  checkIfLocalStorageIsEnabled,
   customEvent,
   allFirstCharsCapital
 }

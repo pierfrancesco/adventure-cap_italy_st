@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './WannabeBusiness.module.css';
+import PropTypes from 'prop-types'
 
 /* ELEMENTS */
 import Button from '../Button';
@@ -12,7 +13,7 @@ import Button from '../Button';
  * @returns {*}
  * @constructor
  */
-const WannabeBusiness = ({business, img,  buyBusinessAction}) => {
+const WannabeBusiness = ({business, img, buyBusinessAction}) => {
 
   return <div key={"elem-wannabe-" + business.ID} className={styles.businessCard}>
     <div className={styles.businessCardHead}>
@@ -29,6 +30,12 @@ const WannabeBusiness = ({business, img,  buyBusinessAction}) => {
       </div>
     </div>
   </div>
+};
+
+WannabeBusiness.propTypes = {
+  business: PropTypes.array.isRequired,
+  img: PropTypes.string.isRequired,
+  buyBusinessAction: PropTypes.func.isRequired
 };
 
 export default WannabeBusiness;

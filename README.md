@@ -46,7 +46,7 @@ This saving features allows the next two features which are:
 ## Improvements
 
 Here we have "greenfield" for improvements. I'll write some but there are much more:
-
+0. `better UI/UX`
 1. `switch to TypeScript`: save some unit tests + help different folks in the project to better work with methods
 2. `a dedicated class for business`: right now they live or inside the Player array property `businesses` or, for those ones
 not bought yet, in a static file. A better separation will be the best for punctual updates (right now you've to cycle in all players businesses array)  
