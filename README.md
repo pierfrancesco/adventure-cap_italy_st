@@ -31,5 +31,3 @@ In the top bar we can have a profile pic and the amount of money available.
 6. Unit tests on functions
 
 7. Script for generate different difficulties
-
-8. export and host

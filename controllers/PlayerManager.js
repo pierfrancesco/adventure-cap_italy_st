@@ -79,7 +79,7 @@ const calculateRevenueWhileAway = (sendWelcomeMessage) => {
   // 1. take all business with manager
   CURRENT_PLAYER.businesses.forEach(elem => {
 
-    if (elem.HAS_MANAGER) {
+    if (elem.HAS_MANAGER && elem.LAST_TRANSACTION_TIMESTAMP !== 0) {
       // 2. take last transaction
       const secondsAfterLastTransaction = Date.now() - elem.LAST_TRANSACTION_TIMESTAMP;
       elem.LAST_TRANSACTION_TIMESTAMP = Date.now();
