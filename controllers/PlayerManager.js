@@ -97,7 +97,7 @@ const calculateRevenueWhileAway = (sendWelcomeMessage) => {
   if (moneyToAssign > 0) {
     CURRENT_PLAYER.money += moneyToAssign;
     savePlayerToLocalStorage();
-    sendWelcomeMessage(`While away you collect:${moneyToAssign} $`);
+    if (typeof sendWelcomeMessage === "function") sendWelcomeMessage(`While away you collect:${moneyToAssign} $`);
   }
 }
 
@@ -155,7 +155,7 @@ const savePlayerToLocalStorage = () => {
  * @param businessId
  */
 const updateMoney = (newMoney, businessId) => {
-  //  TODO: check if they are int
+  //  TODO: check if they are int and businessId is defined
   CURRENT_PLAYER.money += newMoney;
   CURRENT_PLAYER.businesses.map(elem => {
     if (elem.ID === businessId) {
