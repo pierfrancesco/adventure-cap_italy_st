@@ -36,6 +36,8 @@ const getAvailableBusinessList = () => {
  */
 const buyBusinesses = (business) => {
 
+  // TODO: improve negative response
+
   // check if there are enough money
   if (getCurrentPlayerInstance().money < business.INITIAL_COST) return false;
 
@@ -59,7 +61,7 @@ const buyBusinesses = (business) => {
  */
 const updateBusinessLevel = (businessId) => {
 
-  // TODO: add error if business not found
+  // TODO: improve negative response
   let currentBusinessToUpdate = getCurrentPlayerInstance().businesses.filter(elem => elem.ID === businessId)[0];
   if (currentBusinessToUpdate === undefined) return false;
 
@@ -94,6 +96,7 @@ const updateBusinessLevel = (businessId) => {
  * @returns {string}
  */
 const updateBusinessManager = (businessId) => {
+  // TODO: improve negative response
 
   // retrieve the current business
   let currentBusinessToUpdate = getCurrentPlayerInstance().businesses.filter(elem => elem.ID === businessId)[0];
@@ -126,6 +129,7 @@ const updateBusinessManager = (businessId) => {
  * @returns {boolean}
  */
 const updateOnGoingTransaction = (businessId, currentSeconds) => {
+  // TODO: improve negative response
 
   // retrieve current business and update last progress seconds
   getCurrentPlayerInstance().businesses.map(elem => {

@@ -1,9 +1,15 @@
 /* MODELS */
 import Events from '../models/Events';
 import Texts from '../models/Texts';
+
 /* CONTROLLERS */
 import { updateMoney } from './PlayerManager';
-import { buyBusinesses, updateBusinessLevel, updateBusinessManager, updateOnGoingTransaction } from './BusinessManager'
+import {
+  buyBusinesses,
+  updateBusinessLevel,
+  updateBusinessManager,
+  updateOnGoingTransaction
+} from './BusinessManager'
 
 /**
  *
@@ -15,6 +21,7 @@ const actionBuyBusiness = (business) => {
     window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
     return true
   } else {
+    // TODO: improve response
     window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: Texts.en.NO_MONEY}));
     return false
   }
@@ -35,15 +42,15 @@ const actionCollectMoney = (newMoney, businessId) => {
 /**
  *
  * @param businessId
- * @param updatePlayerInfoInsideReactState
- * @param setModalMessage
+ * @returns {boolean}
  */
-const actionBuyUpgrade = (businessId, updatePlayerInfoInsideReactState, setModalMessage) => {
+const actionBuyUpgrade = (businessId) => {
   const result = updateBusinessLevel(businessId);
   if (result) {
     window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
     return true
   } else {
+    // TODO: improve response
     window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: Texts.en.NO_MONEY}));
     return false
   }
@@ -60,6 +67,7 @@ const actionBuyManager = (businessId) => {
     window.dispatchEvent(new CustomEvent(Events.UPDATE_REACT_STATE));
     return true
   } else {
+    // TODO: improve response
     window.dispatchEvent(new CustomEvent(Events.OPEN_MODAL, {detail: Texts.en.NO_MONEY}));
     return false
   }
