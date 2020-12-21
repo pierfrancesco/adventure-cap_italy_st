@@ -86,20 +86,6 @@ const Home = () => {
     {/*MODAL*/}
     {modalMessage ? <Modal message={modalMessage} closeModal={() => setModalMessage(null)}/> : null}
 
-    {/*QUICK GLOBAL CSS*/}
-    <style jsx global>{`
-        body {
-          margin: 0;
-          font-family: 'Dancing Script', cursive;
-        }
-        progress {
-           -webkit-appearance: none;
-        }
-        progress::-webkit-progress-bar-value {
-          -webkit-appearance: none;
-          background: orangered;
-        }
-      `}</style>
   </div>
 }
 export default Home
