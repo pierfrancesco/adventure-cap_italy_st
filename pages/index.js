@@ -64,6 +64,20 @@ const Home = () => {
       <meta name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"/>
       <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet"/>
+      <style>{`
+              body {
+        margin: 0;
+        font-family: 'Dancing Script', cursive;
+      }
+        progress {
+        -webkit-appearance: none;
+      }
+        progress::-webkit-progress-bar-value {
+        -webkit-appearance: none;
+        background: orangered;
+      }
+      `}
+      </style>
     </Head>
 
     {/*APP CONTAINER*/}
